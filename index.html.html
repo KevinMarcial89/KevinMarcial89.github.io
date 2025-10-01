@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Recursividad en Ciencias Computacionales - Estilo Profesional</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Variables de Diseño (Estilo Formal/Profesional - PALETA ACTUALIZADA) */
+        :root {
+            --primary-color: #006400;      /* Verde Oscuro Esmeralda (Formal) */
+            --secondary-color: #008080;    /* Verde Azulado (Acento vibrante) */
+            --accent-color: #8FBC8F;       /* Verde Menta Suave (Éxito/Importancia) */
+            --text-dark: #333333;          /* Gris Oscuro (Texto principal) */
+            --text-muted: #444444;         /* Gris Neutro (Texto secundario) */
+            --bg-light: #ffffff;           /* Blanco (Fondo principal) */
+            --bg-medium: #f5f5f5;          /* Gris muy claro (Fondo de secciones/tarjetas) */
+            --bg-soft: #e0eee0;            /* Verde muy claro (Bloques de impacto) */
+            --code-bg: #f0f8ff;            /* Fondo para bloques de código (Azul muy claro) */
+            --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --border-radius: 6px;
+        }
+
+        /* Base Reset y Tipografía */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Merriweather', serif;
+            margin-bottom: 0.8em;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        h1 { font-size: 2.8em; }
+        h2 { font-size: 2.2em; margin-top: 1.5em; border-bottom: 2px solid var(--secondary-color); padding-bottom: 5px;}
+        h3 { font-size: 1.6em; color: var(--primary-color); }
+        h4 { font-size: 1.3em; color: var(--secondary-color); }
+
+        p, ul, ol {
+            margin-bottom: 1.2em;
+            text-align: justify;
+            color: var(--text-muted);
+        }
+
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-light);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header y Navegación */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand {
+            font-family: "Merriweather", serif;
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--bg-light);
+        }
+        .brand span {
+            color: var(--accent-color); /* Cambiado a accent para contraste */
+        }
+
+        nav a {
+            color: var(--bg-light);
+            margin-left: 20px;
+            font-size: 15px;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: border-bottom 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            text-decoration: none;
+        }
+
+        /* Hero Section (Banner principal) */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 450px;
+            background: var(--bg-medium);
+        }
+
+        .hero-left {
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #e0e0e0;
+        }
+        .hero-left img {
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: brightness(0.95);
+        }
+        
+        .hero-right {
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .badge {
+            font-size: 14px;
+            color: var(--secondary-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 38px;
+            margin: 0 0 15px 0;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+
+        .hero-desc {
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            max-width: 500px;
+            font-size: 17px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--secondary-color);
+            color: var(--bg-light);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+            max-width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 128, 128, 0.2); /* Sombra acorde al nuevo secondary-color */
+        }
+
+        .btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* Contenido General */
+        section {
+            padding: 40px 80px;
+            background: var(--bg-light);
+            margin-bottom: 20px;
+        }
+
+        /* Secciones con fondo (Impacto, Conclusión) */
+        .impact, .conclusion-section, .info-box-styled {
+            background: var(--bg-soft);
+            padding: 30px 80px;
+            border-left: 5px solid var(--accent-color);
+            margin-bottom: 40px;
+        }
+        
+        .impact h3 { color: var(--primary-color); }
+
+        /* Bloques de información y citas */
+        .info-box {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5em;
+        }
+        .info-box h4 { color: var(--secondary-color); }
+        
+        .info-box-styled {
+            padding: 20px;
+            border-left: 5px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 2em;
+            background-color: var(--bg-medium);
+        }
+        .info-box-styled h3 { color: var(--accent-color); margin-bottom: 10px; }
+        .info-box-styled p, .info-box-styled ul { color: var(--text-dark); }
+        
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.95em;
+            margin-bottom: 1.5em;
+            border: 1px solid #dee2e6;
+            color: var(--text-dark);
+            white-space: pre-wrap;
+        }
+        
+        /* Estilo de Contenedores de Imagen */
+        .image-container {
+            text-align: center;
+            margin: 30px 0;
+            background: var(--bg-soft);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        .image-container img {
+            max-width: 90%;
+            height: auto;
+            border-radius: var(--border-radius);
+            border: 1px solid #ccc;
+            filter: brightness(1);
+        }
+        .image-container p {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        
+        /* Estilos para fórmulas LaTeX dentro de bloques de texto */
+        p strong, p em {
+            font-style: normal;
+        }
+        .conclusion-section {
+            border-left: 5px solid var(--secondary-color);
+        }
+
+
+        /* Estilos específicos de Referencias */
+        #referencias {
+            background: var(--bg-medium);
+            padding-bottom: 60px;
+        }
+        
+        #referencias h2 {
+            border-bottom: none;
+            color: var(--primary-color);
+        }
+
+        #referencias li {
+            margin-bottom: 15px;
+            padding-left: 0;
+            color: var(--text-muted);
+            border-bottom: 1px dashed #ced4da;
+            padding-bottom: 10px;
+        }
+        #referencias a {
+            color: var(--secondary-color);
+        }
+
+
+        /* Footer */
+        footer {
+            padding: 20px 40px;
+            border-top: 1px solid #dee2e6;
+            color: var(--text-muted);
+            font-size: 14px;
+            text-align: center;
+            background: var(--bg-medium);
+        }
+
+        /* Media Queries */
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-left { min-height: 250px; }
+            header, section, .impact { padding: 20px 30px; }
+            .hero-right { padding: 40px 30px; }
+        }
+
+        @media (max-width: 600px) {
+            header { flex-direction: column; padding: 15px 20px; }
+            nav { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; }
+            nav a { margin: 5px 8px; font-size: 13px; }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.6em; }
+            .impact, .conclusion-section, .info-box-styled { padding: 20px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrap" role="main">
+        <header>
+            <div class="brand">Recur<span style="color: var(--accent-color);">sividad</span></div>
+            <nav>
+                <a href="#definicion"><i class="fas fa-lightbulb"></i> Definición</a>
+                <a href="#procedimientos"><i class="fas fa-code"></i> Procedimientos</a>
+                <a href="#caracteristicas"><i class="fas fa-list-alt"></i> Características</a>
+                <a href="#complejidad"><i class="fas fa-chart-line"></i> Complejidad</a>
+                <a href="#algoritmos"><i class="fas fa-laptop-code"></i> Ejemplos</a>
+                <a href="#conclusion-recursividad"><i class="fas fa-check-circle"></i> Conclusión</a>
+                <a href="#referencias"><i class="fas fa-book-open"></i> Referencias</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+    <div class="hero-left">
+        <img src="C:\Users\kevin\OneDrive\Documentos\pagina web visual estudio\ImagenRecursividad.jpg" alt="Gráfico abstracto de nodos conectados representando la recursividad." style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.95);" />
+    </div>
+            <div class="hero-right">
+                <h1 class="hero-title">Recursividad En Estructura De Datos</h1>
+                <p class="hero-desc" style="color: var(--text-muted);">
+                    La recursividad es un pilar fundamental que permite resolver problemas complejos dividiéndolos en versiones más simples de sí mismos.
+                </p>
+                <a class="btn" href="#definicion">Empezar Lectura &rarr;</a>
+            </div>
+        </section>
+
+        <section class="impact" style="border-left-color: var(--secondary-color);">
+            <h3>Importancia</h3>
+            <p style="color: var(--text-dark);">La recursividad es fundamental para estructurar algoritmos eficientes, simplificar soluciones a problemas inherentemente recursivos (como estructuras de datos) y profundizar la comprensión de la naturaleza de los problemas computacionales de "divide y vencerás".</p>
+        </section>
+
+        <section id="definicion">
+            <h2><i class="fas fa-lightbulb"></i> Definición de Recursividad</h2>
+            <p>
+                La recursividad es un método en programación y matemáticas mediante el cual un procedimiento, función o algoritmo se define en términos de sí mismo. Consiste en resolver un problema grande o complejo descomponiéndolo en subproblemas más pequeños y manejables, repitiendo el mismo proceso hasta alcanzar un caso base que pueda resolverse directamente.
+            </p>
+            <p>
+                Este enfoque permite abordar problemas con patrones repetitivos o estructuras autosemejantes, como secuencias numéricas, estructuras de datos jerárquicas o procesos iterativos complejos. Cada paso recursivo reduce el problema, acercándose progresivamente al caso base, y una vez alcanzado, los resultados parciales se combinan para construir la **solución final.
+            </p>
+            
+            <div class="image-container">
+                <img src="C:\Users\kevin\OneDrive\Documentos\pagina web visual estudio\rusia.jpg"alt="Representación visual de un proceso recursivo, donde una función se invoca a sí misma hasta alcanzar un caso base." style="width: 85%; height: 85%; object-fit: cover; filter: brightness(0.95);" />
+            </div>
+        </section>
+
+        <section id="procedimientos">
+            <h2><i class="fas fa-code"></i> Procedimientos Recursivos y sus Aplicaciones</h2>
+            
+            <ol>
+                <li>
+                    <h3>¿Qué son los procedimientos recursivos?</h3>
+                    <p>
+                        Un procedimiento recursivo es una función, método o algoritmo que se llama a sí mismo para resolver un problema dividiéndolo en subproblemas más simples. Cada llamada recursiva reduce el tamaño del problema hasta llegar a un caso base, que se puede resolver directamente.
+                    </p>
+                    <p>Los procedimientos recursivos permiten: Simplificar problemas complejos, evitar la repetición de código y resolver estructuras como árboles, grafos, secuencias o fractales.</p>
+                    <div class="info-box">
+                        <h4>Partes fundamentales:</h4>
+                        <ol type=".">
+                            <li>Caso base: Condición que detiene la recursión.</li>
+                            <li>Llamada recursiva: Invocación con un problema más pequeño.</li>
+                            <li>Combinación de resultados: Integración de soluciones parciales.</li>
+                        </ol>
+                    </div>
+                </li>
+                
+                <li>
+                    <h3>Tipos de recursión</h3>
+                    <ol type=".">
+                        <li>Recursión directa: la función se llama a sí misma.</li>
+                        <li>Recursión indirecta: función A llama a B, y B llama a A.</li>
+                        <li>Recursión de cola (Tail Recursion): la llamada recursiva es la última instrucción, permitiendo optimizaciones en algunos lenguajes.</li>
+                        <li>Recursión múltiple: la función se invoca más de una vez (ej. Fibonacci).</li>
+                    </ol>
+                </li>
+                
+                <li>
+                    <h3>Aplicaciones</h3>
+                    <ol>
+                        <li>
+                            <h4>Cálculos matemáticos</h4>
+                            <ul>
+                                <li>Factorial.</li>
+                                <li>Sucesión de Fibonacci.</li>
+                                <li>Potencias y combinaciones.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h4>Algoritmos</h4>
+                            <ul>
+                                <li>Búsqueda binaria.</li>
+                                <li>QuickSort.</li>
+                                <li>MergeSort.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h4>Problemas combinatorios</h4>
+                            <ul>
+                                <li>Torres de Hanói.</li>
+                                <li>Laberintos y caminos en grafos.</li>
+                                <li>Permutaciones y combinaciones.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                
+                <li>
+                    <h3>Ventajas</h3>
+                    <ul>
+                        <li>Soluciones más claras y elegantes.</li>
+                        <li>Menos código repetitivo.</li>
+                        <li>Se adaptan naturalmente a estructuras jerárquicas (árboles, grafos).</li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <h3>Desventajas</h3>
+                    <ul>
+                        <li>Mayor consumo de memoria (pila de llamadas).</li>
+                        <li>Riesgo de desbordamiento de pila (stack overflow) si no hay caso base.</li>
+                        <li>Menos eficientes que algunos algoritmos iterativos equivalentes en ciertos escenarios.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="caracteristicas" style="background-color: var(--bg-medium);">
+            <h2><i class="fas fa-cogs"></i> Características Fundamentales de la Recursividad</h2>
+            <p>
+                
+                La recursividad se distingue por varias propiedades que la hacen única y poderosa para resolver problemas 
+                complejos. Estas características definen cómo funciona un procedimiento 
+                recursivo y cómo se estructura:
+            </p>
+
+            <ol style="line-height:1.8; padding-left:20px; color: var(--text-dark);">
+                <li>
+                    <b>Caso base: 
+
+                    </b> Condición que detiene la recursión. Sin él, la 
+                    función seguiría llamándose infinitamente, provocando un 
+                    error de desbordamiento de pila. Representa el problema más
+                    sencillo que puede resolverse directamente.
+
+                    <p style="margin-left: 15px; margin-bottom: 0.5em; color: var(--text-muted); font-size: 0.95em;">
+                        
+                    </p>
+                </li>
+                <li>
+                    <b>Llamada Recursiva :</b> punto donde la función se 
+                    invoca a sí misma para resolver un subproblema más pequeño. 
+                    Cada llamada reduce la complejidad y acerca al caso base.
+
+                    <p style="margin-left: 15px; margin-bottom: 0.5em; color: var(--text-muted); font-size: 0.95em;">
+                    </p>
+                </li>
+                <li>
+                    <b>Progreso hacia el Caso Base (Convergencia):</b> cada llamada 
+                    recursiva debe acercar la solución al caso base, asegurando que la
+                    recursión termine correctamente.
+
+                    <p style="margin-left: 15px; margin-bottom: 0.5em; color: var(--text-muted); font-size: 0.95em;">
+                 </p> 	
+                </li>
+                <li>
+                    <b>División de problemas complejos:</b> permite descomponer un
+                    problema grande en subproblemas más manejables,
+                    similares al original.
+
+                    <p style="margin-left: 15px; margin-bottom: 0.5em; color: var(--text-muted); font-size: 0.95em;">
+                    </p>
+                </li>
+                <li>
+                    <b>Combinación de Resultados:</b> alcanzar el caso base, 
+                    los resultados parciales de cada llamada se integran para 
+                    obtener la solución final.
+
+                    <p style="margin-left: 15px; margin-bottom: 0.5em; color: var(--text-muted); font-size: 0.95em;">
+                    </p> 
+                </li>
+            <li>
+
+                    <b> Elegancia y simplicidad en el código:</b> expresa algoritmos
+                    de manera clara y concisa, útil en recorridos de 
+                    árboles, fractales y sucesiones matemáticas.
+
+                    <p style="margin-left: 15px; margin-bottom: 0.5em; color: var(--text-muted); font-size: 0.95em;">
+                    </p>
+                </li>
+            <li>
+            
+                <b>Riesgo de consumo de memoria:</b>  cada llamada se almacena en la
+                pila de ejecución. Si no se controla, puede provocar 
+                desbordamiento de pila. Siempre debe definirse un caso b
+                ase y limitar la profundidad.
+                    <p style="margin-left: 15px; margin-bottom: 0.5em; color: var(--text-muted); font-size: 0.95em;">
+                    </p>
+                </li>
+
+            </ol>
+            
+            <div class="info-box-styled" style="border-left-color: var(--secondary-color);">
+                <h3><i class="fas fa-check-circle"></i> Resumen de Características</h3>
+                <p style="color: var(--text-dark);">
+                    La recursividad es una técnica poderosa que combina llamadas a sí misma, 
+                    división de problemas, casos base y combinación de resultados, 
+                    permitiendo resolver tareas complejas de manera elegante, aunque
+                    requiere cuidado con el uso de memoria y la definición de casos base.
+                </p>
+            </div>
+        </section>
+        
+        <section id="complejidad" class="conclusion-section" style="border-left-color: var(--secondary-color);">
+            <h2><i class="fas fa-chart-line"></i> Complejidad Computacional en Algoritmos Recursivos</h2>
+            <p style="color: var(--text-dark);">
+                La complejidad computacional de un algoritmo recursivo mide los recursos que 
+                necesita para ejecutarse, principalmente en tiempo (velocidad de ejecución) y 
+                espacio (memoria utilizada). Analizar la complejidad es crucial para entender si un algoritmo recursivo es
+                eficiente y cómo se comporta ante entradas grandes.
+            </p>
+
+            <h3 style="color: var(--primary-color);">1. Factores que afectan la complejidad</h3>
+            <ul style="line-height:1.8; padding-left:20px; color: var(--text-muted);">
+                <li>Número de llamadas recursivas: Cada llamada añade un marco en la pila de ejecución. A mayor número de llamadas, mayor consumo de tiempo y memoria.</li>
+                <li>Tamaño del subproblema: Dividir el problema en mitades (ej. MergeSort) es más eficiente que generar múltiples ramas (ej. Fibonacci simple).</li>
+                <li>Operaciones realizadas en cada llamada: Si además de la recursión se hacen cálculos complejos, la complejidad total aumenta.</li>
+            </ul>
+            
+            <h3 style="color: var(--primary-color); margin-top:20px;">2. Tipos de complejidad en recursión</h3>
+            <p style="color: var(--text-dark);"><strong> -Complejidad temporal (tiempo de ejecución)-</strong>
+            </p>
+            <ul style="line-height:1.8; padding-left:20px; color: var(--text-muted);">
+                <li>Factorial recursivo:O(n).</li>
+                <li>Fibonacci recursivo simple:O(2ⁿ).</li>
+                <li>MergeSort: O(n log n).</li>
+                <li>Torres de Hanói: O(2ⁿ − 1).</li>
+            </ul>
+
+            <p style="color: var(--text-dark);"><strong> -Complejidad espacial (uso de memoria)- </strong>
+            </p>
+            <ul style="line-height:1.8; padding-left:20px; color: var(--text-muted);">
+                <li>Factorial recursivo:  profundidad n → O(n). </li>
+                <li>Fibonacci simple:  profundidad n → O(n).</li>
+                <li>MergeSort:espacio adicional para combinar sublistas → O(n).</li>
+            </ul>
+
+            <h3 style="color: var(--primary-color); margin-top:20px;">3. Optimización de algoritmos recursivos</h3>
+            <ul style="line-height:1.8; padding-left:20px; color: var(--text-muted);">
+                <li> Recursión de cola (Tail Recursion): Permite que el compilador optimice el uso de la pila.</li>
+                <li> Memoización: Guarda resultados de subproblemas ya calculados ejemplo: Fibonacci con memoización → O(n)</li>
+                <li> Dividir y conquistar: Dividir el problema en partes balanceadas mejora la eficiencia (ejemplo: MergeSort, QuickSort).</li>
+            </ul>
+        </section>
+
+        <section id="algoritmos">
+            <h2><i class="fas fa-desktop"></i> Ejemplos Fundamentales de Algoritmos Recursivos</h2>
+            
+            <div style="border: 1px solid #dee2e6; padding: 20px; margin-bottom: 25px; border-radius: var(--border-radius); background-color: var(--bg-medium);">
+                <h3 style="color: var(--primary-color);">1. Factorial </h3>
+                <p style="color: var(--text-dark);">
+                    El factorial de un número entero no negativo $n$, denotado como $n!$, es el producto de todos los enteros positivos menores o iguales que $n$.
+                    <br>
+                    <strong>Fórmula:</strong>
+                    <br>
+                    n! = 1 si n = 0
+                    <br>
+                    n! = n × (n − 1)! si n > 0
+                    <br>
+                    Por convenio, 0! = 1.
+                    <br>
+                    <strong>Ejemplo paso a paso:</strong>
+                    <br>
+                    5! = 5 × 4 × 3 × 2 × 1 = 120
+
+                </p>
+                <p style="color: var(--text-muted);"></p> 
+                <h4 style="color: var(--accent-color);"><strong>🔹 Pseudocódigo iterativo: </strong> </h4>
+                <pre>
+Algoritmo Factorial_Iterativo
+Entrada: n (entero)
+Salida: resultado (entero)
+
+resultado ← 1
+Para i desde 1 hasta n hacer
+    resultado ← resultado * i
+FinPara
+Retornar resultado
+                </pre>
+                <h4 style="color: var(--accent-color);"> <strong>🔹 Pseudocódigo recursivo: </strong> </h4>
+                <pre>
+Funcion Factorial_Recursivo(n)
+    Si n == 0 entonces
+        retornar 1  // Caso base
+    Si no
+        retornar n * Factorial_Recursivo(n-1)
+FinFuncion
+                </pre>
+            </div>
+            <h4 style="color: var(--accent-color);"> <strong>Aplicaciones</strong></h4>
+            <ul style="color: var(--text-muted);">
+                <li>Enseñanza de recursividad en programación.</li>
+                <li>Modelado de problemas de búsqueda en IA.</li>
+                <li>Organización de procesos jerárquicos.</li>
+            </ul>
+
+            
+            <div style="border: 1px solid #dee2e6; padding: 20px; margin-bottom: 25px; border-radius: var(--border-radius); background-color: var(--bg-medium);">
+                <h3 style="color: var(--primary-color);">2. Fibonacci</h3>
+                <p style="color: var(--text-dark);">
+                La sucesión de Fibonacci comienza con 0 y 1, y cada término posterior es la suma de los dos anteriores.
+                </p>
+                <strong>Fórmula:</strong>
+                <br>
+                F(0) = 0
+                <br>
+                F(1) = 1
+                <br>
+                 F(n) = F(n−1) + F(n−2), si n > 1
+                <br>
+                <strong>Ejemplo paso a paso:</strong> 
+                <br>
+                Primeros 7 términos: 0, 1, 1, 2, 3, 5, 8
+                <br>
+                <h5 style="color: var(--accent-color);"> <strong>🔹 Pseudocódigo recursivo: </strong> </h5>
+                <pre>
+Funcion Fibonacci(n)
+    Si n == 0 entonces
+        retornar 0
+    Si n == 1 entonces
+        retornar 1
+    retornar Fibonacci(n-1) + Fibonacci(n-2)
+FinFuncion
+                </pre>
+                <h5 style="color: var(--accent-color);"> <strong>🔹 Pseudocódigo iterativo: </strong> </h5>
+                <pre> 	
+Algoritmo Fibonacci_Iterativo
+Entrada: n
+Si n == 0 entonces retornar 0
+a ← 0
+b ← 1
+Para i desde 2 hasta n hacer
+    temp ← a + b
+    a ← b
+    b ← temp
+FinPara
+Retornar b
+                </pre>
+            </div>
+            <h4 style="color: var(--accent-color);"> <strong>Aplicaciones</strong></h4>
+            <ul style="color: var(--text-muted);">
+                <li>Biología (ramificación, conchas, genética).</li>
+                <li>Optimización y algoritmos (divide y vencerás).</li>
+                <li>Arte y arquitectura (proporción áurea).
+</li>
+            </ul>
+
+            
+            <div style="border: 1px solid #dee2e6; padding: 20px; margin-bottom: 25px; border-radius: var(--border-radius); background-color: var(--bg-medium);">
+                <h3 style="color: var(--primary-color);">3. Torres de Hanói</h3>
+                <p style="color: var(--text-dark);">
+                    <strong>Definición:</strong>
+                    Juego creado por Édouard Lucas (1883). Consiste en mover una torre de discos desde un poste A hasta un poste C, usando un poste auxiliar B.
+                </p>
+                
+                <h4 style="color: var(--accent-color);">🔹 Reglas:</h4>
+                <ul style="color: var(--text-muted);">
+                    <li>Se mueve un disco a la vez.</li>
+                    <li>No se coloca un disco grande sobre uno pequeño.</li>
+                    <li>Todos deben llegar al poste destino.</li>
+                </ul>
+
+                <h4 style="color: var(--accent-color);">🔹 Fórmula de movimientos:</h4>
+                <p style="color: var(--text-muted);">
+                    M(n) = 2ⁿ − 1
+                    <br>
+                    Ejemplo: con 3 discos → M(3) = 7 movimientos.
+                </p>
+
+                <h4 style="color: var(--accent-color);">🔹 Pseudocódigo recursivo:</h4>
+                <pre>
+Procedimiento Hanoi(n, origen, auxiliar, destino)
+    Si n == 1 entonces
+        Imprimir "Mover disco de", origen, "a", destino
+    Si no
+        Hanoi(n-1, origen, destino, auxiliar)
+        Imprimir "Mover disco de", origen, "a", destino
+        Hanoi(n-1, auxiliar, origen, destino)
+FinProcedimiento
+                </pre>
+
+                <h4 style="color: var(--accent-color);">🔹 Aplicaciones:</h4>
+                <ul style="color: var(--text-muted);">
+                    <li>Enseñanza de recursividad en programación.</li>
+                    <li>Modelado de problemas de búsqueda en IA.</li>
+                    <li>Organización de procesos jerárquicos.</li>
+                </ul>
+            </div>
+            
+            <div style="border: 1px solid #dee2e6; padding: 20px; border-radius: var(--border-radius); background-color: var(--bg-medium);">
+                <h3 style="color: var(--primary-color);">4. Fractales</h3>
+                
+                <p style="color: var(--text-dark);">
+                    <strong>Definición:</strong>
+                    Un fractal es una figura geométrica con *auto-similitud*: su estructura se repite a diferentes escalas. Se construyen con algoritmos recursivos infinitos.
+                </p>
+
+                <h4 style="color: var(--accent-color);">🔹 Ejemplo: Triángulo de Sierpinski</h4>
+                <ul style="color: var(--text-muted);">
+                    <li>Se parte de un triángulo.</li>
+                    <li>Se divide en 4 y se elimina el del centro.</li>
+                    <li>Se repite el proceso en los 3 restantes.</li>
+                </ul>
+
+                <h4 style="color: var(--accent-color);">🔹 Ejemplo: Copo de nieve de Koch</h4>
+                <ul style="color: var(--text-muted);">
+                    <li>Se parte de un triángulo equilátero.</li>
+                    <li>Cada lado se divide en 3 segmentos.</li>
+                    <li>El segmento central se reemplaza por un pico triangular.</li>
+                    <li>El proceso se repite en cada iteración.</li>
+                </ul>
+
+                <h4 style="color: var(--accent-color);">🔹 Pseudocódigo (Copo de Koch):</h4>
+                <pre>
+Procedimiento Koch(linea, n)
+    Si n == 0 entonces
+        Dibujar linea
+    Si no
+        Dividir linea en 3 segmentos iguales
+        Reemplazar el segmento central con un pico triangular
+        Llamar Koch en cada segmento con n-1
+FinProcedimiento
+                </pre>
+
+                <h4 style="color: var(--accent-color);">🔹 Aplicaciones:</h4>
+                <ul style="color: var(--text-muted);">
+                    <li>Simulación de fenómenos naturales (montañas, nubes, costas).</li>
+                    <li>Gráficos por computadora y videojuegos.</li>
+                    <li>Matemáticas avanzadas y teoría del caos.</li>
+                    <li>Arte y diseño digital.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="conclusion-recursividad" class="conclusion-section" style="border-left-color: var(--accent-color); background: var(--bg-soft);">
+            <h2><i class="fas fa-check-circle"></i> Conclusión sobre el Paradigma Recursivo</h2>
+            <p style="color: var(--text-dark); font-size: 1.1em;">
+                La recursividad es una técnica esencial en
+                 programación y matemáticas que permite resolver problemas 
+                 complejos dividiéndolos en subproblemas más pequeños mediante
+                  llamadas de una función o procedimiento a sí mismo. Esta 
+                  estrategia se basa en la existencia de un *caso base* que 
+                  detiene la recursión y asegura que la solución se construya 
+                  de manera ordenada. Gracias a este enfoque, problemas que 
+                  parecerían difíciles se vuelven manejables y claros, y los 
+                  algoritmos resultan más estructurados y fáciles de entender.
+
+            </p>
+            <p style="color: var(--text-dark);">
+                Los procedimientos recursivos se aplican en 
+                cálculos matemáticos, **algoritmos de búsqueda y 
+                ordenamiento, estructuras de datos jerárquicas
+                 como árboles y grafos, en la *resolución de rompecabezas 
+                 como las Torres de Hanói, y en la *generación de patrones 
+                 gráficos y fractales*. Sus características fundamentales 
+                 —como el caso base, la llamada recursiva y el progreso hacia 
+                 la solución— permiten que cada paso del algoritmo aporte a la 
+                 construcción del resultado final de manera sistemática.
+
+            </p>
+            <div class="info-box-styled" style="border-left-color: var(--primary-color);">
+                <h3><i class="fas fa-lightbulb"></i> Pensamiento Clave</h3>
+                <p style="color: var(--text-dark);">
+                    *Un algoritmo recursivo bien diseñado es a menudo más fácil de **demostrar como correcto** que su equivalente iterativo, lo cual es fundamental en la verificación formal de programas.*
+                </p>
+            </div>
+        </section>
+          <section id="referencias">
+            <h2><i class="fas fa-book-open"></i> Referencias</h2>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li>[1] C. López, <i>Estructura de datos - Parte 1</i>, 1ª ed. Red Tercer Milenio S.C., 2012. <a href="https://www.etac.edu.mx/hubfs/BibliotecasDigitales/RTM/pdf_RTM/Estructura_de_datos_Parte_1.pdf" target="_blank">Enlace</a></li>
+                <li>[2] C. García, <i>Libro de Estructura de Datos, Material Didáctico</i>, ISC-ESCOM, Instituto Politécnico Nacional, 2009. <a href="https://www.escom.ipn.mx/docs/oferta/matDidacticoISC2009/EDts/Libro_EstructuraDatos.pdf" target="_blank">Enlace</a></li>
+                <li>[3] M. Hernández Bejarano y L. E. Baquero Rey, <i>Estructuras de Datos</i>, 1ª ed. Bogotá: Ediciones de la U, 2021. <a href="https://api.pageplace.de/preview/DT0400.9789587922714_A42123177/preview-9789587922714_A4123177.pdf" target="_blank">Enlace</a></li>
+                <li>[4] L. Joyanes Aguilar, <i>Fundamentos de programación: algoritmos, estructura de datos y objetos</i>, 4ª ed. Madrid: McGraw-Hill/Interamericana de España, 2008. <a href="https://elhacker.info/manuales/Lenguajes%20de%20Programacion/Fundamentos_de_programaci%C3%B3n_4ta_Edici%C3%B3n_Luis_Joyanes_Aguilar_2.pdf" target="_blank">Enlace</a></li>
+                <li>[5] E. Canle Fernández, “Estructura de datos en Java: ¿en qué consiste y cómo se aplica?”, <i>Tokio School</i>, 22 de marzo de 2025. <a href="https://www.tokioschool.com/noticias/estructura-datos-java/" target="_blank">Enlace</a></li>
+                <li>[6] B. López Takeyas, "Recursividad," curso de Estructuras de Datos, PDF, 2025. <a href="https://share.google/1tSVnc590SgMt2GtU" target="_blank">Enlace</a></li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Recursividad en Ciencias Computacionales | Documento para Fines Académicos y Profesionales. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+</body>
+</html>
